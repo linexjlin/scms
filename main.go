@@ -65,7 +65,6 @@ func (app *APP) findFileInHist(filename string) string {
 
 	//find filename in files
 	for _, file := range filesHist {
-		log.Println(file)
 		if filepath.Base(file) == filename {
 			return filepath.ToSlash(strings.TrimPrefix(file, app.histDir))
 		}
@@ -75,6 +74,8 @@ func (app *APP) findFileInHist(filename string) string {
 
 func (app *APP) handlePath(w http.ResponseWriter, r *http.Request) {
 	log.Printf("Handling request for %s\n", r.URL.Path)
+	// print remote ip
+	log.Printf("Remote IP: %s\n", r.RemoteAddr)
 
 	path := r.URL.Path
 
@@ -83,13 +84,13 @@ func (app *APP) handlePath(w http.ResponseWriter, r *http.Request) {
 		hotResultMD := renderMarkdown("最近更新", app.hotDir, 1, "*.html,*.md")
 		histResultMD := renderMarkdown("历史存档", app.histDir, 3, "*.html,*.md")
 		homePage := genHomePage(app.title, hotResultMD, histResultMD)
-		log.Println(homePage)
+		//log.Println(homePage)
 		html, err := markdown2html(homePage, app.title)
 		if err != nil {
 			http.Error(w, "Error generating home page", http.StatusInternalServerError)
 			return
 		}
-		log.Println(html)
+		//log.Println(html)
 		// fmt.Fprintf(w, html)
 		w.Write([]byte(html))
 		return
@@ -164,6 +165,9 @@ func (app *APP) serveFile(w http.ResponseWriter, r *http.Request, fullPath strin
 }
 
 func main() {
+	// log show line number
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+
 	// Add flag definitions
 	hotDirFlag := flag.String("hot", `C:\Users\line\OneDrive\data\Released\JY-AI`, "Path to hot directory")
 	histDirFlag := flag.String("hist", `C:\Users\line\OneDrive\data\Released\JY-AI\history`, "Path to history directory")
