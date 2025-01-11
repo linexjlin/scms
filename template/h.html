@@ -9,26 +9,56 @@
       <link rel="stylesheet" href="/static/blue.css">
     <!-- 添加导航栏样式 -->
     <style>
-      .nav-bar {
-          background-color: #333;
-          padding: 15px;
-          margin-bottom: 20px;
-      }
-      .nav-bar a {
-          color: white;
-          text-decoration: none;
-          padding: 10px 15px;
-      }
-      .nav-bar a:hover {
-          background-color: #555;
-      }
+    /* 添加自定义样式 */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px; /* 增加内边距 */
+      background-color: #f8f9fa;
+      border-bottom: 1px solid #e9ecef;
+    }
+    .navbar-left {
+      display: flex;
+      align-items: center;
+    }
+    .navbar-right {
+      display: flex;
+      align-items: center;
+    }
+    .navbar a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: #007bff;
+    }
+    .navbar img {
+      width: 70px;
+      height: 90px;
+      margin-left: 5px;
+    }
+    /* 添加 input 样式 */
+    .navbar input {
+      width: 120px; /* 调整宽度 */
+      font-size: 18px; /* 调整字体大小 */
+      padding: 5px; /* 可选：增加内边距 */
+      border: none; /* 去掉边框 */
+      background: transparent; /* 背景透显 */
+      outline: none; /* 去掉聚焦时的外边框 */
+    }
   </style>
 
     </head>
     <body class="normal firstload">
-    <!-- 添加导航栏 -->
-      <div class="nav-bar">
-          <a href="/">返回</a>
-      </div>
+  <!-- 导航栏 -->
+  <div class="navbar">
+    <div class="navbar-left">
+      <a href="/">主页</a>
+    </div>
+    <div class="navbar-right">
+      <input value='"AI知我意"🔍'></input>
+      <img src="/static/gzh-qr-small.png" alt="二维码">
+    </div>
+  </div>
+
       <div id="wrapper">
         

@@ -104,8 +104,10 @@ func (app *APP) handlePath(w http.ResponseWriter, r *http.Request) {
 	// Remove leading slash
 	path = path[1:]
 
-	// Check if path contains a directory separator
-	if strings.Contains(path, "/") {
+	fullPathInHot := filepath.Join(app.hotDir, path)
+
+	// Check if path contains a directory separator and not exists in hotDir
+	if strings.Contains(path, "/") && !fileExists(fullPathInHot) {
 		// Handle files from histDir (e.g., /2024-12/filename)
 		fullPath := filepath.Join(app.histDir, path)
 		app.serveFile(w, r, fullPath)
@@ -113,6 +115,7 @@ func (app *APP) handlePath(w http.ResponseWriter, r *http.Request) {
 	} else {
 		// Handle files from hotDir (e.g., /filename.md)
 		fullPath := filepath.Join(app.hotDir, path)
+
 		//check if file exists
 		if _, err := os.Stat(fullPath); os.IsNotExist(err) {
 			if file := app.findFileInHist(path); file != "" {
@@ -162,8 +165,8 @@ func (app *APP) serveFile(w http.ResponseWriter, r *http.Request, fullPath strin
 
 func main() {
 	// Add flag definitions
-	hotDirFlag := flag.String("hot", `C:\Users\line\OneDrive\data\LearnEnglish`, "Path to hot directory")
-	histDirFlag := flag.String("hist", `C:\Users\line\OneDrive\data\LearnEnglish\history`, "Path to history directory")
+	hotDirFlag := flag.String("hot", `C:\Users\line\OneDrive\data\Released\JY-AI`, "Path to hot directory")
+	histDirFlag := flag.String("hist", `C:\Users\line\OneDrive\data\Released\JY-AI\history`, "Path to history directory")
 	titleFlag := flag.String("title", "学习英语", "Title of the page")
 	listenAddrFlag := flag.String("listen", "127.0.0.1:8080", "Server listen address")
 	flag.Parse()
